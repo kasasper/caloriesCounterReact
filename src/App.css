@@ -92,7 +92,7 @@ div.form-active {
 }
 
 .error-message {
-	color: red;
+	color: yellow;
 }
 
 .added_elements > li > * {

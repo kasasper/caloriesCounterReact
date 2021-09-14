@@ -1,15 +1,22 @@
 import React from 'react';
 import './App.css';
+import Element from './Element';
 
 class ElementsBase extends React.Component {
 	render() {
 		return (
-			<span className="btn-element old-element">
-				<p className="btn-element-name">{this.props.name}</p>
-				<p className="btn-element-cal">{this.props.calories} kcal</p>
-				<p className="btn-element-size">
-					{this.props.size1} {this.props.size2}
-				</p>
+			<span id="base">
+				{this.props.list.map((product) => {
+					return (
+						<Element
+							key={product.product}
+							name={product.product}
+							calories={product.calories}
+							size1={product.size}
+							size2={product.sizeType}
+						/>
+					);
+				})}
 			</span>
 		);
 	}

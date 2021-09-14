@@ -79,16 +79,36 @@ class MyForm extends React.Component {
 	}
 
 	addNew() {
+		let sizeElement;
+		switch (this.state.size) {
+			case 'default':
+				sizeElement = [
+					'100',
+					'g'
+				];
+				break;
+			case 'package':
+				sizeElement = [
+					'1',
+					'package'
+				];
+				break;
+			default:
+				sizeElement = [
+					'100',
+					'g'
+				];
+		}
 		let newItem = {
 			product: this.state.pname.trim(),
 			calories: this.state.calories.trim(),
-			size: '1',
-			sizeType: 'test'
+			size: sizeElement[0],
+			sizeType: sizeElement[1]
 		};
 
 		if (this.validate()) {
 			this.addToLocalStorage('app', newItem);
-			this.props.generateHTML();
+			this.props.setList();
 			this.props.toggleForm();
 		}
 	}

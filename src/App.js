@@ -49,9 +49,9 @@ export default class App extends React.Component {
 		localStorage.setItem(string, JSON.stringify(items));
 	}
 
-	setList() {
-		this.state.list = this.getFromLocalStorage('app');
-	}
+	setList = () => {
+		this.setState({ list: this.getFromLocalStorage('app') });
+	};
 
 	componentDidMount() {
 		this.init();
@@ -61,7 +61,7 @@ export default class App extends React.Component {
 
 	clearAll() {
 		this.setToLocalStorage('app', []);
-		document.querySelector('#base').innerHTML = '';
+		this.setList();
 		// removeElements();
 		// clearCounterText();
 	}
@@ -76,7 +76,7 @@ export default class App extends React.Component {
 				: console.log(i.product + ' is in base');
 		}
 		this.setToLocalStorage('app', localStorage);
-		this.generateHTML();
+		this.setList();
 	}
 
 	generateHTML() {
@@ -93,8 +93,6 @@ export default class App extends React.Component {
 			// addCounterEventForBox(newItem);
 		});
 	}
-
-	removeElements() {}
 
 	toggleForm(id = window.event.target.closest('form').id) {
 		const form = document.querySelector(`form#${id}`);
@@ -129,23 +127,13 @@ export default class App extends React.Component {
 					<ClearLocalStorage onClick={() => this.clearAll()} />
 				</div>
 				<div className="elements-row">
-					{this.state.list.map((product) => {
-						return (
-							<span id="base">
-								<ElementsBase
-									name={product.product}
-									calories={product.calories}
-									size1={product.size}
-									size2={product.sizeType}
-								/>
-							</span>
-						);
-					})}
+					<ElementsBase list={this.state.list} />
 					<ElementsAddNew
 						setToLocalStorage={this.setToLocalStorage}
 						generateHTML={this.generateHTML}
 						toggleForm={this.toggleForm}
 						getFromLocalStorage={this.getFromLocalStorage}
+						setList={this.setList}
 						onClick={() => this.toggleForm('myform')}
 					/>
 				</div>

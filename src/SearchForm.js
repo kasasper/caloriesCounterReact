@@ -5,7 +5,7 @@ import './App.css';
 class SearchForm extends React.Component {
 	preventEnter(e) {
 		const code = e.keyCode || e.which;
-		if (code == 13) {
+		if (code === 13) {
 			e.preventDefault();
 			return false;
 		}
@@ -16,7 +16,7 @@ class SearchForm extends React.Component {
 		const elements = document.querySelectorAll('.old-element');
 		elements.forEach((e) => {
 			const name = e.firstElementChild.textContent;
-			name.toLowerCase().indexOf(term) == -1 ? (e.style.display = 'none') : (e.style.display = 'inline-table');
+			name.toLowerCase().indexOf(term) === -1 ? (e.style.display = 'none') : (e.style.display = 'inline-table');
 		});
 	}
 	render() {

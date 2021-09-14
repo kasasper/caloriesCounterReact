@@ -8,29 +8,22 @@ import SampleData1Button from './SampleData1Button';
 import SampleData2Button from './SampleData2Button';
 import ClearLocalStorage from './ClearLocalStorage';
 import { sampleData1, sampleData2 } from './utils';
+import ClearCounterButton from './ClearCounterButton';
+import SettingsGoalButton from './SettingsGoalButton';
+import CounterBase from './CounterBase';
+import CounterResult from './CounterResult';
 
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			list: [
-				{
-					product: 'To co jest przed1',
-					calories: '1505',
-					size: '100',
-					sizeType: 'g'
-				},
-				{
-					product: 'To co jest przed2',
-					calories: '1505',
-					size: '100',
-					sizeType: 'g'
-				}
-			]
+			list: [],
+			counter: [],
+			caloriesArray: [],
+			goal: 2000,
+			sum: 0
 		};
 	}
-
-	userGoal = 0;
 
 	init() {
 		return this.getFromLocalStorage('app') || this.setToLocalStorage('app', []);
@@ -51,6 +44,14 @@ export default class App extends React.Component {
 
 	setList = () => {
 		this.setState({ list: this.getFromLocalStorage('app') });
+	};
+
+	setCounter = (array) => {
+		this.setState({ counter: array })
+	};
+
+	setCaloriesArray = (array) => {
+		this.setState({ caloriesArray: array });
 	};
 
 	componentDidMount() {
@@ -79,21 +80,6 @@ export default class App extends React.Component {
 		this.setList();
 	}
 
-	generateHTML() {
-		const localStorage = this.getFromLocalStorage('app');
-		document.querySelector('#base').innerHTML = '';
-		localStorage.forEach(function(i) {
-			let HTML = `<p class="btn-element-name">${i.product}</p>
-		<p class="btn-element-cal">${i.calories} kcal</p>
-		<p class="btn-element-size">${i.size} ${i.sizeType}</p>`;
-			const newItem = document.createElement('span');
-			newItem.setAttribute('class', 'btn-element old-element');
-			newItem.innerHTML = HTML;
-			document.querySelector('#base').appendChild(newItem);
-			// addCounterEventForBox(newItem);
-		});
-	}
-
 	toggleForm(id = window.event.target.closest('form').id) {
 		const form = document.querySelector(`form#${id}`);
 		if (form.parentElement.className === 'form') {
@@ -116,26 +102,55 @@ export default class App extends React.Component {
 		}
 	}
 
+	summarize = () => {
+		let newSum = 0;
+		let s = this.state.caloriesArray;
+		for (let e of s) {
+			newSum += parseInt(e.calories);
+		}
+		this.setState({ sum: newSum });
+	};
+
 	render() {
 		return (
-			<div className="container">
-				<div className="header">
-					<h2>Elements</h2>
-					<SearchForm />
-					<SampleData1Button onClick={() => this.generateSample(sampleData1)} />
-					<SampleData2Button onClick={() => this.generateSample(sampleData2)} />
-					<ClearLocalStorage onClick={() => this.clearAll()} />
+			<div>
+				<div className="container">
+					<div className="header">
+						<h2>Elements</h2>
+						<SearchForm />
+						<SampleData1Button onClick={() => this.generateSample(sampleData1)} />
+						<SampleData2Button onClick={() => this.generateSample(sampleData2)} />
+						<ClearLocalStorage onClick={() => this.clearAll()} />
+					</div>
+					<div className="elements-row">
+						<ElementsBase
+							list={this.state.list}
+							counter={this.state.counter}
+							setCounter={this.setCounter}
+						/>
+						<ElementsAddNew
+							setToLocalStorage={this.setToLocalStorage}
+							generateHTML={this.generateHTML}
+							toggleForm={this.toggleForm}
+							getFromLocalStorage={this.getFromLocalStorage}
+							setList={this.setList}
+							onClick={() => this.toggleForm('myform')}
+						/>
+					</div>
 				</div>
-				<div className="elements-row">
-					<ElementsBase list={this.state.list} />
-					<ElementsAddNew
-						setToLocalStorage={this.setToLocalStorage}
-						generateHTML={this.generateHTML}
-						toggleForm={this.toggleForm}
-						getFromLocalStorage={this.getFromLocalStorage}
-						setList={this.setList}
-						onClick={() => this.toggleForm('myform')}
-					/>
+				<div className="container">
+					<div className="header">
+						<h2>Counter</h2>
+						<ClearCounterButton onClick={() => console.log('TODO')} />
+						<SettingsGoalButton onClick={() => this.toggleForm('settings')} />
+						<CounterBase
+							counter={this.state.counter}
+							setCaloriesArray={this.setCaloriesArray}
+							caloriesArray={this.state.caloriesArray}
+							summarize={this.summarize}
+						/>
+						<CounterResult userGoal={this.state.goal} sum={this.state.sum} />
+					</div>
 				</div>
 			</div>
 		);

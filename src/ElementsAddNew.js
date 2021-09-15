@@ -12,7 +12,6 @@ class ElementsAddNew extends React.Component {
 				<div className="form">
 					<MyForm
 						setToLocalStorage={this.props.setToLocalStorage}
-						generateHTML={this.props.generateHTML}
 						toggleForm={this.props.toggleForm}
 						setList={this.props.setList}
 						getFromLocalStorage={this.props.getFromLocalStorage}

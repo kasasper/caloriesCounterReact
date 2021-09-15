@@ -21,7 +21,9 @@ export default class App extends React.Component {
 			counter: [],
 			caloriesArray: [],
 			goal: 2000,
-			sum: 0
+			sum: 0,
+			diffText: '',
+			diffWarning: false
 		};
 	}
 
@@ -46,8 +48,14 @@ export default class App extends React.Component {
 		this.setState({ list: this.getFromLocalStorage('app') });
 	};
 
+	setGoal = () => {
+		this.setState({ goal: this.getFromLocalStorage('goal') }, () => {
+			this.goalDifference();
+		});
+	};
+
 	setCounter = (array) => {
-		this.setState({ counter: array })
+		this.setState({ counter: array });
 	};
 
 	setCaloriesArray = (array) => {
@@ -58,13 +66,13 @@ export default class App extends React.Component {
 		this.init();
 		this.initGoal();
 		this.setList();
+		this.setGoal();
 	}
 
 	clearAll() {
 		this.setToLocalStorage('app', []);
 		this.setList();
-		// removeElements();
-		// clearCounterText();
+		this.removeElementsInCounter();
 	}
 
 	generateSample(data) {
@@ -102,14 +110,42 @@ export default class App extends React.Component {
 		}
 	}
 
+	removeElementsInCounter = () => {
+		this.setState({
+			counter: [],
+			caloriesArray: [],
+			sum: 0,
+			diffText: `You can eat ${this.state.goal} more kcal.`,
+			diffWarning: false
+		});
+	};
+
 	summarize = () => {
 		let newSum = 0;
 		let s = this.state.caloriesArray;
 		for (let e of s) {
 			newSum += parseInt(e.calories);
 		}
-		this.setState({ sum: newSum });
+		this.setState({ sum: newSum }, () => {
+			this.goalDifference();
+		});
 	};
+
+	goalDifference() {
+		const difference = this.state.goal - this.state.sum;
+		if (difference > 0) {
+			this.setState({ diffText: `You can eat ${difference} more kcal.`, diffWarning: false });
+		}
+		else if (difference === 0) {
+			this.setState({ diffText: `Perfect. You have reached your goal.`, diffWarning: false });
+		}
+		else if (difference < 0) {
+			this.setState({ diffText: `You have ate ${Math.abs(difference)} kcal too much.`, diffWarning: true });
+		}
+		else {
+			this.setState({ diffText: `Something were wrong.`, diffWarning: true });
+		}
+	}
 
 	render() {
 		return (
@@ -130,7 +166,6 @@ export default class App extends React.Component {
 						/>
 						<ElementsAddNew
 							setToLocalStorage={this.setToLocalStorage}
-							generateHTML={this.generateHTML}
 							toggleForm={this.toggleForm}
 							getFromLocalStorage={this.getFromLocalStorage}
 							setList={this.setList}
@@ -141,15 +176,26 @@ export default class App extends React.Component {
 				<div className="container">
 					<div className="header">
 						<h2>Counter</h2>
-						<ClearCounterButton onClick={() => console.log('TODO')} />
-						<SettingsGoalButton onClick={() => this.toggleForm('settings')} />
+						<ClearCounterButton onClick={this.removeElementsInCounter} />
+						<SettingsGoalButton
+							onClick={() => this.toggleForm('settings')}
+							setToLocalStorage={this.setToLocalStorage}
+							toggleForm={this.toggleForm}
+							goal={this.state.goal}
+							setGoal={this.setGoal}
+						/>
 						<CounterBase
 							counter={this.state.counter}
 							setCaloriesArray={this.setCaloriesArray}
 							caloriesArray={this.state.caloriesArray}
 							summarize={this.summarize}
 						/>
-						<CounterResult userGoal={this.state.goal} sum={this.state.sum} />
+						<CounterResult
+							userGoal={this.state.goal}
+							sum={this.state.sum}
+							diffText={this.state.diffText}
+							diffWarning={this.state.diffWarning}
+						/>
 					</div>
 				</div>
 			</div>

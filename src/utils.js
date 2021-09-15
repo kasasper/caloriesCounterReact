@@ -23,28 +23,28 @@ export const sampleData2 = [
 	},
 
 	{
-		product: 'Chapatis',
+		product: 'Watermelon',
 		calories: '300',
 		size: '100',
 		sizeType: 'g'
 	},
 
 	{
-		product: 'Cream crackers',
+		product: 'Cherries',
 		calories: '440',
 		size: '100',
 		sizeType: 'g'
 	},
 
 	{
-		product: 'Macaroni boiled',
+		product: 'Rice boiled',
 		calories: '95',
 		size: '100',
 		sizeType: 'g'
 	},
 
 	{
-		product: 'Potatoes roast',
+		product: 'Croissant',
 		calories: '420',
 		size: '100',
 		sizeType: 'g'
@@ -58,21 +58,21 @@ export const sampleData2 = [
 	},
 
 	{
-		product: 'Ham',
+		product: 'Bacon',
 		calories: '240',
 		size: '100',
 		sizeType: 'g'
 	},
 
 	{
-		product: 'Kiwi',
+		product: 'Pizza',
 		calories: '40',
 		size: '1',
 		sizeType: 'package'
 	},
 
 	{
-		product: 'Spinach',
+		product: 'Bug',
 		calories: '8',
 		size: '1',
 		sizeType: 'portion'
@@ -86,7 +86,7 @@ export const sampleData2 = [
 	},
 
 	{
-		product: 'Yogurt natural',
+		product: 'Lobster',
 		calories: '60',
 		size: '100',
 		sizeType: 'g'

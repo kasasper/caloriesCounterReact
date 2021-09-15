@@ -1,7 +1,16 @@
 import React from 'react';
 import './App.css';
+import Settings from './Settings';
 
 export default class SettingsGoalButton extends React.Component {
+	preventEnter(e) {
+		const code = e.keyCode || e.which;
+		if (code === 13) {
+			e.preventDefault();
+			return false;
+		}
+	}
+
 	render() {
 		return (
 			<span>
@@ -9,19 +18,13 @@ export default class SettingsGoalButton extends React.Component {
 					Settings
 				</button>
 				<div className="form">
-					<form id="settings">
-						<fieldset>
-							<legend>Settings</legend>
-							<label htmlFor="goal">Calories goal</label>
-							<br />
-							<input type="text" id="goal" />
-							<br />
-							<span id="error-goal" className="error-message" />
-							<button className="button1" type="button" id="settingsSave">
-								Save
-							</button>
-						</fieldset>
-					</form>
+					<Settings
+						onKeyPress={this.preventEnter}
+						setToLocalStorage={this.props.setToLocalStorage}
+						toggleForm={this.props.toggleForm}
+						goal={this.props.goal}
+						setGoal={this.props.setGoal}
+					/>
 				</div>
 			</span>
 		);

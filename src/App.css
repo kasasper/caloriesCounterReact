@@ -82,7 +82,7 @@ div.form {
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 div.form-active {
@@ -116,6 +116,12 @@ div.form-active {
 	text-align: center;
 	border: 1px solid #555555;
 	border-radius: 50%;
+}
+
+.insearch {
+	/* to polish */
+	margin-left: -35px;
+	color: black;
 }
 
 @keyframes fade_in_show {

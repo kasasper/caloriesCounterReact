@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 
 class CounterElement extends React.Component {
-	id = this.props.name + Math.floor(Math.random() * 1000);
+	// id = this.props.name + Math.floor(Math.random() * 1000);
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -18,7 +18,7 @@ class CounterElement extends React.Component {
 	addToCounter = () => {
 		let newCalc = this.props.caloriesArray;
 		newCalc.push({
-			product: this.id,
+			product: this.props.id,
 			calories: this.state.calories
 		});
 		this.props.setCaloriesArray(newCalc);
@@ -26,7 +26,7 @@ class CounterElement extends React.Component {
 	};
 
 	changeCaloriesArrayEdit = () => {
-		let objIndex = this.props.caloriesArray.findIndex((obj) => obj.product === this.id);
+		let objIndex = this.props.caloriesArray.findIndex((obj) => obj.product === this.props.id);
 		this.props.caloriesArray[objIndex].calories = this.state.calories;
 		//https://stackoverflow.com/questions/4689856/how-to-change-value-of-object-which-is-inside-an-array-using-javascript-or-jquer#:~:text=348-,It%20is%20quite%20simple,-Find%20the%20index
 	};
@@ -48,6 +48,15 @@ class CounterElement extends React.Component {
 			}
 		);
 	};
+
+	removeItem = () => {
+		let updateCaloriesArray = this.props.caloriesArray;
+		updateCaloriesArray = updateCaloriesArray.filter((item) => item.product !== this.props.id);
+		this.props.setCaloriesArray(updateCaloriesArray);
+		let updateCounterArray = this.props.counter;
+		updateCounterArray = updateCounterArray.filter((item) => item.id !== this.props.id);
+		this.props.setCounter(updateCounterArray);
+	};
 	render() {
 		return (
 			<li>
@@ -55,7 +64,7 @@ class CounterElement extends React.Component {
 				<span className="counter-cal">{this.state.calories} kcal</span>
 				<input className="counter-size" defaultValue={this.props.size1} onChange={this.handleChange} />
 				<span className="counter-size-pack">{this.props.size2}</span>
-				<span className="close" onClick={() => console.log('todo')}>
+				<span className="close" onClick={this.removeItem}>
 					x
 				</span>
 			</li>

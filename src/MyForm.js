@@ -111,6 +111,7 @@ class MyForm extends React.Component {
 			this.props.setList();
 			this.props.toggleForm();
 		}
+		this.setState({ pname: '', calories: '', size: 'default' });
 	}
 	render() {
 		return (

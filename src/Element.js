@@ -30,15 +30,28 @@ class Element extends React.Component {
 		let newCounter = this.props.counter;
 		newCounter.push({
 			product: this.props.name,
+			id: this.props.name + Math.floor(Math.random() * 1000),
 			calories: this.props.calories,
 			size: this.props.size1,
 			sizeType: this.props.size2
 		});
 		this.props.setCounter(newCounter);
 	};
+
+	removeItem = (e) => {
+		e.stopPropagation();
+		let updateList = this.props.list;
+		updateList = updateList.filter((item) => item.product !== this.props.name);
+		this.props.setToLocalStorage('app', updateList);
+		this.props.setList();
+	};
+
 	render() {
 		return (
-			<span className="btn-element old-element" onClick={() => this.addToCounter()}>
+			<span className="btn-element old-element" onClick={this.addToCounter}>
+				<button className="btn-delete" onClick={this.removeItem}>
+					X
+				</button>
 				<p id="product-img">{this.state.img}</p>
 				<p className="btn-element-name">{this.props.name}</p>
 				<p className="btn-element-cal">{this.props.calories} kcal</p>

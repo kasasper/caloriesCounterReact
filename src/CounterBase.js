@@ -12,11 +12,14 @@ class CounterBase extends React.Component {
 							<CounterElement
 								key={product.product}
 								name={product.product}
+								id={product.id}
 								calories={product.calories}
 								size1={product.size}
 								size2={product.sizeType}
 								setCaloriesArray={this.props.setCaloriesArray}
 								caloriesArray={this.props.caloriesArray}
+								setCounter={this.props.setCounter}
+								counter={this.props.counter}
 								summarize={this.props.summarize}
 							/>
 						);

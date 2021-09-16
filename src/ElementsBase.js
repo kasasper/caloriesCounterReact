@@ -9,8 +9,11 @@ class ElementsBase extends React.Component {
 				{this.props.list.map((product) => {
 					return (
 						<Element
+							list={this.props.list}
 							counter={this.props.counter}
 							setCounter={this.props.setCounter}
+							setToLocalStorage={this.props.setToLocalStorage}
+							setList={this.props.setList}
 							key={product.product}
 							name={product.product}
 							calories={product.calories}

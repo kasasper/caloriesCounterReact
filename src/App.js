@@ -59,7 +59,7 @@ export default class App extends React.Component {
 	};
 
 	setCaloriesArray = (array) => {
-		this.setState({ caloriesArray: array });
+		this.setState({ caloriesArray: array }, () => this.summarize());
 	};
 
 	componentDidMount() {
@@ -163,6 +163,8 @@ export default class App extends React.Component {
 							list={this.state.list}
 							counter={this.state.counter}
 							setCounter={this.setCounter}
+							setToLocalStorage={this.setToLocalStorage}
+							setList={this.setList}
 						/>
 						<ElementsAddNew
 							setToLocalStorage={this.setToLocalStorage}
@@ -186,6 +188,7 @@ export default class App extends React.Component {
 						/>
 						<CounterBase
 							counter={this.state.counter}
+							setCounter={this.setCounter}
 							setCaloriesArray={this.setCaloriesArray}
 							caloriesArray={this.state.caloriesArray}
 							summarize={this.summarize}

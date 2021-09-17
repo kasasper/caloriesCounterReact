@@ -151,7 +151,7 @@ export default class App extends React.Component {
 		return (
 			<div>
 				<div className="container">
-					<div className="header">
+					<div id="elements" className="header">
 						<h2>Elements</h2>
 						<SearchForm />
 						<SampleData1Button onClick={() => this.generateSample(sampleData1)} />
